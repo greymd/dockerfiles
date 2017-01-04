@@ -11,10 +11,13 @@
 # docker build -t greymd/cureutils https://github.com/greymd/dockerfiles.git#:cureutils/debian
 ```
 
-### Add this line to `.bashrc`
+### Add those lines to `.bashrc`
 
 ```
-alias cure='docker run -i --rm greymd/cureutils cure'
+cure () {
+    [ -t 0 ] && T="t" || T=""
+    docker run -i$T --rm greymd/cureutils cure $1
+}
 ```
 
 ## Use
