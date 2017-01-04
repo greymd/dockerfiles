@@ -9,7 +9,9 @@ RUN apt update && \
     gem install bundler rake && \
     bundle install && \
     rake build && \
-    find ./pkg/ -type f | head -n 1 | xargs gem install
+    find ./pkg/ -type f | head -n 1 | xargs gem install && \
+    cd .. && \
+    rm -rf cureutils
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
 ENV LC_ALL ja_JP.UTF-8
