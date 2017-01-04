@@ -5,4 +5,4 @@ RUN yum install -y squid
 # Default port of squid
 EXPOSE 3128
 
-CMD ["/usr/sbin/squid -N"]
+CMD ["/usr/sbin/squid","-N"]
