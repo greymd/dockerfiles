@@ -1,5 +1,5 @@
 FROM centos:7
-MAINTAINER greymd <greengregson@gmail.com>
+MAINTAINER Yamada, Yasuhiro <greengregson@gmail.com>
 RUN yum install -y squid
 
 # Default port of squid
