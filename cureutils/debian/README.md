@@ -1,17 +1,27 @@
 ## Build
 
+### From Dockerhub
+
 ```
-# docker build -t cureutils https://github.com/greymd/dockerfiles.git#:cureutils/debian
+# docker pull greymd/cureutils
+```
+
+### From Github
+```
+# docker build -t greymd/cureutils https://github.com/greymd/dockerfiles.git#:cureutils/debian
 ```
 
 ### Add this line to `.bashrc`
 
 ```
-alias cure='docker run -i --rm cureutils cure'
+alias cure='docker run -i --rm greymd/cureutils cure'
 ```
 
 ## Use
 
+Usage is [here](https://github.com/greymd/cureutils).
+
+### `cure girls`
 ```
 # cure girls
 美墨なぎさ
@@ -20,6 +30,7 @@ alias cure='docker run -i --rm cureutils cure'
 ...
 ```
 
+### `cure girls`
 ```
 # echo キュア{ハート,ダイヤ,エース,スペード} | xargs -n 1 | cure grep
 キュアハート
