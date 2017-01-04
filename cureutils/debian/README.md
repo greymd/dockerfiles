@@ -16,7 +16,7 @@
 ```
 cure () {
     [ -t 0 ] && T="t" || T=""
-    docker run -i$T --rm greymd/cureutils cure $1
+    docker run -i$T --rm greymd/cureutils cure $@
 }
 ```
 
