@@ -15,7 +15,7 @@ RUN apt update && \
     # ------------------
     # Set dotfiles
     # ------------------
-    mkdir -p $HOME/reps/greymd
+    mkdir -p $HOME/reps/greymd && \
     git clone https://github.com/greymd/dotfiles.git /root/reps/greymd/dotfiles && \
     cd /root/reps/greymd/dotfiles && \
     # Delete existing dotfiles
