@@ -8,16 +8,16 @@ RUN apt update && \
     # Install Ruby
     # ------------------
     apt install -y build-essential libssl-dev && \
-    git clone https://github.com/sstephenson/rbenv.git /root/.rbenv && \
-    git clone https://github.com/sstephenson/ruby-build.git /root/.rbenv/plugins/ruby-build && \
+    git clone https://github.com/sstephenson/rbenv.git $HOME/.rbenv && \
+    git clone https://github.com/sstephenson/ruby-build.git $HOME/.rbenv/plugins/ruby-build && \
     $HOME/.rbenv/bin/rbenv install 2.3.0 && \
     $HOME/.rbenv/bin/rbenv global 2.3.0 && \
     # ------------------
     # Set dotfiles
     # ------------------
     mkdir -p $HOME/reps/greymd && \
-    git clone https://github.com/greymd/dotfiles.git /root/reps/greymd/dotfiles && \
-    cd /root/reps/greymd/dotfiles && \
+    git clone https://github.com/greymd/dotfiles.git $HOME/reps/greymd/dotfiles && \
+    cd $HOME/reps/greymd/dotfiles && \
     # Delete existing dotfiles
     ls -a | grep '^\.'  | grep -vFw '.' | grep -v '^\.git$' | sed 's|^|rm -f $HOME/|' | sh && \
     # Set links
@@ -26,7 +26,15 @@ RUN apt update && \
     # Install zplug
     # ------------------
     export ZPLUG_HOME=$HOME/.zplug && \
-    git clone https://github.com/zplug/zplug $ZPLUG_HOME
+    git clone https://github.com/zplug/zplug $ZPLUG_HOME && \
+    # ------------------
+    # Install dein
+    # ------------------
+    mkdir -p $HOME/.cache/dein && \
+    curl -L https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > $HOME/installer.sh && \
+    sh $HOME/installer.sh $HOME/.cache/dein && \
+    # Return with exit status 0
+    (vim -c ':call dein#install()' -e +%p +q!; exit 0)
 
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
