@@ -3,7 +3,7 @@ MAINTAINER Yamada, Yasuhiro <greengregson@gmail.com>
 RUN apt update && \
     apt install -y locales && \
     localedef -f UTF-8 -i ja_JP ja_JP.utf8 && \
-    apt install -y tmux vim curl make git zsh netcat build-essential libssl-dev libreadline-dev nkf python&& \
+    apt install -y tmux vim curl make netcat libreadline-dev nkf && \
     # ------------------
     # Install Ruby
     # ------------------
@@ -15,6 +15,7 @@ RUN apt update && \
     # ------------------
     # Set dotfiles
     # ------------------
+    apt install -y git curl && \
     mkdir -p $HOME/reps/greymd && \
     git clone https://github.com/greymd/dotfiles.git $HOME/reps/greymd/dotfiles && \
     cd $HOME/reps/greymd/dotfiles && \
@@ -25,16 +26,19 @@ RUN apt update && \
     # ------------------
     # Install zplug
     # ------------------
+    apt install -y zsh python && \
     export ZPLUG_HOME=$HOME/.zplug && \
     git clone https://github.com/zplug/zplug $ZPLUG_HOME && \
     # ------------------
     # Install dein
     # ------------------
+    apt install -y vim && \
     mkdir -p $HOME/.cache/dein && \
     curl -L https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > $HOME/installer.sh && \
-    sh $HOME/installer.sh $HOME/.cache/dein && \
-    # Return with exit status 0
-    (vim -c ':call dein#install()' -e +%p +q!; exit 0)
+    sh $HOME/installer.sh $HOME/.cache/dein
+
+# Install dein plugins
+RUN yes | vim -c ":silent call dein#install() | :q"
 
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
