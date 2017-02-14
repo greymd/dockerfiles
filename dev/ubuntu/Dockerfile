@@ -3,7 +3,7 @@ MAINTAINER Yamada, Yasuhiro <greengregson@gmail.com>
 RUN apt update && \
     apt install -y locales && \
     localedef -f UTF-8 -i ja_JP ja_JP.utf8 && \
-    apt install -y tmux vim curl make netcat libreadline-dev nkf && \
+    apt install -y git tmux vim curl make netcat libreadline-dev nkf && \
     # ------------------
     # Install Ruby
     # ------------------
@@ -15,7 +15,6 @@ RUN apt update && \
     # ------------------
     # Set dotfiles
     # ------------------
-    apt install -y git curl && \
     mkdir -p $HOME/reps/greymd && \
     git clone https://github.com/greymd/dotfiles.git $HOME/reps/greymd/dotfiles && \
     cd $HOME/reps/greymd/dotfiles && \
