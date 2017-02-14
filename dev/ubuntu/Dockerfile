@@ -13,6 +13,12 @@ RUN apt update && \
     $HOME/.rbenv/bin/rbenv install 2.3.0 && \
     $HOME/.rbenv/bin/rbenv global 2.3.0 && \
     # ------------------
+    # Install zplug
+    # ------------------
+    apt install -y zsh python && \
+    export ZPLUG_HOME=$HOME/.zplug && \
+    git clone https://github.com/zplug/zplug $ZPLUG_HOME && \
+    # ------------------
     # Set dotfiles
     # ------------------
     mkdir -p $HOME/reps/greymd && \
@@ -23,15 +29,9 @@ RUN apt update && \
     # Set links
     ls -a | grep '^\.' | grep -v '^\.git$' | grep -vwF '.' | sed 's/^.*/echo ln -s $(pwd)\/& $HOME\/&/e' | sh && \
     # ------------------
-    # Install zplug
-    # ------------------
-    apt install -y zsh python && \
-    export ZPLUG_HOME=$HOME/.zplug && \
-    git clone https://github.com/zplug/zplug $ZPLUG_HOME && \
-    # ------------------
     # Install universal-ctags
     # ------------------
-    # Ref: https://github.com/universal-ctags/ctags/blob/master/docs/autotools.rst
+    Ref: https://github.com/universal-ctags/ctags/blob/master/docs/autotools.rst
     apt install -y dh-autoreconf pkg-config && \
     git clone https://github.com/universal-ctags/ctags.git $HOME/reps/universal-ctags/ctags && \
     cd $HOME/reps/universal-ctags/ctags && \
@@ -61,18 +61,10 @@ RUN apt update && \
     apt install -y vim && \
     mkdir -p $HOME/.cache/dein && \
     curl -L https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > $HOME/installer.sh && \
-    sh $HOME/installer.sh $HOME/.cache/dein && \
-    # ------------------
-    # chsh
-    # ------------------
-    chsh -s zsh
+    sh $HOME/installer.sh $HOME/.cache/dein
 
 # Install dein plugins
 RUN yes | vim -c ":silent call dein#install() | :q"
-
-# Install zplug plugins
-RUN zsh -c "source $HOME/.zshrc && zplug install"
-
 
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
