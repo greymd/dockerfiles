@@ -29,6 +29,33 @@ RUN apt update && \
     export ZPLUG_HOME=$HOME/.zplug && \
     git clone https://github.com/zplug/zplug $ZPLUG_HOME && \
     # ------------------
+    # Install universal-ctags
+    # ------------------
+    # Ref: https://github.com/universal-ctags/ctags/blob/master/docs/autotools.rst
+    apt install -y dh-autoreconf pkg-config && \
+    git clone https://github.com/universal-ctags/ctags.git $HOME/reps/universal-ctags/ctags && \
+    cd $HOME/reps/universal-ctags/ctags && \
+    ./autogen.sh && \
+    ./configure && \
+    make && \
+    make install && \
+    # ------------------
+    # Install Go
+    # ------------------
+    cd $HOME && \
+    mkdir $HOME/.go && \
+    curl -L https://storage.googleapis.com/golang/go1.7.5.linux-amd64.tar.gz | tar zxv && \
+    mv go /usr/local && \
+    ls /usr/local/go/bin/ | sed 's;.*;ln -s /usr/local/go/bin/& /usr/local/bin/&;' | sh && \
+    # ------------------
+    # Install pt (does not work...)
+    # ------------------
+    # go get -u github.com/monochromegane/the_platinum_searcher/...
+    # cd $HOME && \
+    # curl -L https://github.com/monochromegane/the_platinum_searcher/releases/download/v2.1.5/pt_linux_amd64.tar.gz | tar zxv && \
+    # cp pt_linux_amd64/pt /usr/local/bin && \
+    # rm -rf pt_linux_amd64 && \
+    # ------------------
     # Install dein
     # ------------------
     apt install -y vim && \
