@@ -28,8 +28,6 @@ call dein#add('tpope/vim-abolish')
 call dein#end()
 
 syntax enable
-filetype plugin indent on     " required!
+filetype plugin indent on
 filetype indent on
 syntax on
-
-
