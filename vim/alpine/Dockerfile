@@ -18,6 +18,7 @@ RUN apk --update --no-cache add ca-certificates git vim curl && \
     # ------------------
     # Set dein
     # ------------------
+    curl -L https://raw.githubusercontent.com/greymd/dockerfiles/master/vim/alpine/.vimrc > $HOME/.vimrc && \
     mkdir -p $HOME/.cache/dein && \ 
     curl -L https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > $HOME/installer.sh && \
     sh $HOME/installer.sh $HOME/.cache/dein && \
