@@ -71,7 +71,7 @@ RUN apt update && \
 RUN yes | vim -c ":silent call dein#install() | :q"
 
 # Install zplug plugins
-RUN zsh -c "$HOME/.zshrc && zplug install"
+RUN zsh -c "source $HOME/.zshrc && zplug install"
 
 
 ENV LANG ja_JP.UTF-8
