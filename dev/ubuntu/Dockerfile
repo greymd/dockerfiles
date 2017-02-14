@@ -61,10 +61,18 @@ RUN apt update && \
     apt install -y vim && \
     mkdir -p $HOME/.cache/dein && \
     curl -L https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > $HOME/installer.sh && \
-    sh $HOME/installer.sh $HOME/.cache/dein
+    sh $HOME/installer.sh $HOME/.cache/dein && \
+    # ------------------
+    # chsh
+    # ------------------
+    chsh -s zsh
 
 # Install dein plugins
 RUN yes | vim -c ":silent call dein#install() | :q"
+
+# Install zplug plugins
+RUN zsh -c "$HOME/.zshrc && zplug install"
+
 
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
