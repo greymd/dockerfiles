@@ -27,7 +27,7 @@ RUN apt update && \
     # Delete existing dotfiles
     ls -a | grep '^\.'  | grep -vFw '.' | grep -v '^\.git$' | sed 's|^|rm -f $HOME/|' | sh && \
     # Set links
-    ls -a | grep '^\.' | grep -v '^\.git$' | grep -vwF '.' | sed 's/^.*/echo ln -s $(pwd)\/& $HOME\/&/e' | sh && \
+    ls -a | grep '^\.' | grep -v '^\.git$' | grep -vwF '.' | sed 's/^.*/echo ln -s $(pwd)\/& $HOME\/&/' | sh | sh && \
     # ------------------
     # Install universal-ctags
     # ------------------
@@ -47,6 +47,14 @@ RUN apt update && \
     curl -L https://storage.googleapis.com/golang/go1.7.5.linux-amd64.tar.gz | tar zxv && \
     mv go /usr/local && \
     ls /usr/local/go/bin/ | sed 's;.*;ln -s /usr/local/go/bin/& /usr/local/bin/&;' | sh && \
+    # ------------------
+    # Install fzy
+    # ------------------
+    cd $HOME && \
+    apt install wget && \
+    wget https://github.com/jhawthorn/fzy/releases/download/0.8/fzy_0.8-1_amd64.deb && \
+    dpkg -i fzy_0.8-1_amd64.deb && \
+    rm fzy_0.8-1_amd64.deb && \
     # ------------------
     # Install pt (does not work...)
     # ------------------
