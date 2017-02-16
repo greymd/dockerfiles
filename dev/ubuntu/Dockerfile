@@ -39,7 +39,11 @@ RUN apt install -y zsh python && \
 # ------------------
 # Install antigen
 # ------------------
-RUN curl -L https://cdn.rawgit.com/zsh-users/antigen/v1.4.0/bin/antigen.zsh > $HOME/antigen.zsh
+RUN mkdir -p $HOME/reps/zsh-users/antigen && \
+    git clone https://github.com/zsh-users/antigen.git $HOME/reps/zsh-users/antigen
+
+# Install antigen plugins
+RUN zsh
 
 # ------------------
 # Install universal-ctags
@@ -56,7 +60,6 @@ RUN apt install -y dh-autoreconf pkg-config && \
 # ------------------
 # Install Go
 # ------------------
-ENV GOPATH $HOME/.go
 RUN cd $HOME && \
     mkdir $HOME/.go && \
     curl -L https://storage.googleapis.com/golang/go1.7.5.linux-amd64.tar.gz | tar zxv && \
@@ -67,7 +70,6 @@ RUN cd $HOME && \
 # Install pt (does not work...)
 # ------------------
 RUN cd $HOME && \
-    /usr/local/go/bin/go get -u github.com/monochromegane/the_platinum_searcher/... && \
     curl -L https://github.com/monochromegane/the_platinum_searcher/releases/download/v2.1.5/pt_linux_amd64.tar.gz | tar zxv && \
     cp pt_linux_amd64/pt /usr/local/bin && \
     rm -rf pt_linux_amd64
