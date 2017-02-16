@@ -74,11 +74,11 @@ RUN cd $HOME && \
 # ------------------
 # Install pt (does not work...)
 # ------------------
-    # go get -u github.com/monochromegane/the_platinum_searcher/...
-    # cd $HOME && \
-    # curl -L https://github.com/monochromegane/the_platinum_searcher/releases/download/v2.1.5/pt_linux_amd64.tar.gz | tar zxv && \
-    # cp pt_linux_amd64/pt /usr/local/bin && \
-    # rm -rf pt_linux_amd64 && \
+    go get -u github.com/monochromegane/the_platinum_searcher/...
+    cd $HOME && \
+    curl -L https://github.com/monochromegane/the_platinum_searcher/releases/download/v2.1.5/pt_linux_amd64.tar.gz | tar zxv && \
+    cp pt_linux_amd64/pt /usr/local/bin && \
+    rm -rf pt_linux_amd64
 
 # ------------------
 # Install dein
