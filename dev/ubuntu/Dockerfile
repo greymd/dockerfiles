@@ -85,12 +85,16 @@ RUN cd $HOME && \
     rm fzy_0.8-1_amd64.deb
 
 # ------------------
-# Install dein
+# Vim settings
 # ------------------
 RUN apt install -y vim && \
     mkdir -p $HOME/.cache/dein && \
     curl -L https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > $HOME/installer.sh && \
     sh $HOME/installer.sh $HOME/.cache/dein
+
+# Create vimproc_linux64.so for vimproc
+RUN cd $HOME/.cache/dein/repos/github.com/Shougo/vimproc.vim && \
+    make
 
 # Install dein plugins
 RUN yes | vim -c ":silent call dein#install() | :q"
