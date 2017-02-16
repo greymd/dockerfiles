@@ -10,6 +10,17 @@ RUN apt update && \
     apt install -y git tmux vim curl make netcat libreadline-dev nkf
 
 # ------------------
+# Set dotfiles
+# ------------------
+RUN mkdir -p $HOME/reps/greymd && \
+    git clone https://github.com/greymd/dotfiles.git $HOME/reps/greymd/dotfiles && \
+    cd $HOME/reps/greymd/dotfiles && \
+    # Delete existing dotfiles
+    ls -a | grep '^\.'  | grep -vFw '.' | grep -v '^\.git$' | sed 's|^|rm -f $HOME/|' | sh && \
+    # Set links
+    ls -a | grep '^\.' | grep -v '^\.git$' | grep -vwF '.' | sed 's/^.*/echo ln -s $(pwd)\/& $HOME\/&/' | sh | sh
+
+# ------------------
 # Install Ruby
 # ------------------
 RUN apt install -y build-essential libssl-dev && \
@@ -31,17 +42,6 @@ RUN apt install -y zsh python && \
 RUN curl -L https://cdn.rawgit.com/zsh-users/antigen/v1.4.0/bin/antigen.zsh > $HOME/antigen.zsh
 
 # ------------------
-# Set dotfiles
-# ------------------
-RUN mkdir -p $HOME/reps/greymd && \
-    git clone https://github.com/greymd/dotfiles.git $HOME/reps/greymd/dotfiles && \
-    cd $HOME/reps/greymd/dotfiles && \
-    # Delete existing dotfiles
-    ls -a | grep '^\.'  | grep -vFw '.' | grep -v '^\.git$' | sed 's|^|rm -f $HOME/|' | sh && \
-    # Set links
-    ls -a | grep '^\.' | grep -v '^\.git$' | grep -vwF '.' | sed 's/^.*/echo ln -s $(pwd)\/& $HOME\/&/' | sh | sh
-
-# ------------------
 # Install universal-ctags
 # ------------------
 # Ref: https://github.com/universal-ctags/ctags/blob/master/docs/autotools.rst
@@ -56,11 +56,22 @@ RUN apt install -y dh-autoreconf pkg-config && \
 # ------------------
 # Install Go
 # ------------------
+ENV GOPATH $HOME/.go
 RUN cd $HOME && \
     mkdir $HOME/.go && \
     curl -L https://storage.googleapis.com/golang/go1.7.5.linux-amd64.tar.gz | tar zxv && \
     mv go /usr/local && \
     ls /usr/local/go/bin/ | sed 's;.*;ln -s /usr/local/go/bin/& /usr/local/bin/&;' | sh
+
+# ------------------
+# Install pt (does not work...)
+# ------------------
+RUN cd $HOME && \
+    /usr/local/go/bin/go get -u github.com/monochromegane/the_platinum_searcher/... && \
+    curl -L https://github.com/monochromegane/the_platinum_searcher/releases/download/v2.1.5/pt_linux_amd64.tar.gz | tar zxv && \
+    cp pt_linux_amd64/pt /usr/local/bin && \
+    rm -rf pt_linux_amd64
+
 
 # ------------------
 # Install fzy
@@ -70,15 +81,6 @@ RUN cd $HOME && \
     wget https://github.com/jhawthorn/fzy/releases/download/0.8/fzy_0.8-1_amd64.deb && \
     dpkg -i fzy_0.8-1_amd64.deb && \
     rm fzy_0.8-1_amd64.deb
-
-# ------------------
-# Install pt (does not work...)
-# ------------------
-    go get -u github.com/monochromegane/the_platinum_searcher/...
-    cd $HOME && \
-    curl -L https://github.com/monochromegane/the_platinum_searcher/releases/download/v2.1.5/pt_linux_amd64.tar.gz | tar zxv && \
-    cp pt_linux_amd64/pt /usr/local/bin && \
-    rm -rf pt_linux_amd64
 
 # ------------------
 # Install dein
