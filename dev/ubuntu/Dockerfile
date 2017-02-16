@@ -43,7 +43,7 @@ RUN mkdir -p $HOME/reps/zsh-users/antigen && \
     git clone https://github.com/zsh-users/antigen.git $HOME/reps/zsh-users/antigen
 
 # Install antigen plugins
-RUN zsh
+RUN zsh --rcs $HOME/.zshrc -c 'antigen-update'
 
 # ------------------
 # Install universal-ctags
