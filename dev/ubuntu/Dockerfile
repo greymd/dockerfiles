@@ -102,3 +102,6 @@ RUN yes | vim -c ":silent call dein#install() | :q"
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
 ENV LC_ALL ja_JP.UTF-8
+
+# Cleaning
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
