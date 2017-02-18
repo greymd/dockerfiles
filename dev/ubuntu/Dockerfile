@@ -92,12 +92,12 @@ RUN apt install -y vim && \
     curl -L https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > $HOME/installer.sh && \
     sh $HOME/installer.sh $HOME/.cache/dein
 
+# Install dein plugins
+RUN yes | vim -c ":silent call dein#install() | :q"
+
 # Create vimproc_linux64.so for vimproc
 RUN cd $HOME/.cache/dein/repos/github.com/Shougo/vimproc.vim && \
     make
-
-# Install dein plugins
-RUN yes | vim -c ":silent call dein#install() | :q"
 
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
