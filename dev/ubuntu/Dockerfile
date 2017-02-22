@@ -8,8 +8,10 @@ RUN apt update && \
     apt install -y locales && \
     localedef -f UTF-8 -i ja_JP ja_JP.utf8 && \
     apt install -y git tmux vim curl make netcat libreadline-dev nkf bc expect tree \
-    # In order to develop debian package.
-    dh-make fakeroot
+    # In order to develop debian package (Ref: http://www.rain.hyarc.nagoya-u.ac.jp/~satoki/main/Linux/configure/make_deb.html).
+    dh-make fakeroot pbuilder \
+    # For PPA
+    software-properties-common
 
 # ------------------
 # Set dotfiles
