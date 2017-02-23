@@ -1,5 +1,7 @@
 FROM ubuntu:16.04
 MAINTAINER Yamada, Yasuhiro <greengregson@gmail.com>
+ENV DEBFULLNAME="Yamada Yasuhiro" DEBEMAIL=greengregson@gmail.com
+
 
 # ------------------
 # Install Basic softwares
