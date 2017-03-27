@@ -100,7 +100,7 @@ RUN cd $HOME && \
     make && \
     make install && \
     cd $HOME && \
-    rm --rf GlueLang
+    rm -rf GlueLang
 
 # ------------------
 # Vim settings
