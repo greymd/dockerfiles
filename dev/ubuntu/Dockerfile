@@ -85,10 +85,22 @@ RUN cd $HOME && \
 # Install fzy
 # ------------------
 RUN cd $HOME && \
-    apt install wget && \
+    apt install -y wget && \
     wget https://github.com/jhawthorn/fzy/releases/download/0.8/fzy_0.8-1_amd64.deb && \
     dpkg -i fzy_0.8-1_amd64.deb && \
     rm fzy_0.8-1_amd64.deb
+
+# ------------------
+# Install GlueLang
+# ------------------
+RUN cd $HOME && \
+    apt install -y g++ && \
+    git clone https://github.com/ryuichiueda/GlueLang.git && \
+    cd GlueLang && \
+    make && \
+    make install && \
+    cd $HOME && \
+    rm --rf GlueLang
 
 # ------------------
 # Vim settings
