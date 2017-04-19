@@ -117,6 +117,12 @@ RUN yes | vim -c ":silent call dein#install() | :q"
 RUN cd $HOME/.cache/dein/repos/github.com/Shougo/vimproc.vim && \
     make
 
+# ------------------
+# Install Tmux Plugin Manager
+# ------------------
+RUN git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
+
+
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
 ENV LC_ALL ja_JP.UTF-8
