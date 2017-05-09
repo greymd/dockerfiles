@@ -121,7 +121,7 @@ RUN cd $HOME/.cache/dein/repos/github.com/Shougo/vimproc.vim && \
 # Install Tmux related softwares
 # ------------------
 RUN apt-get install -y libevent-dev ncurses-dev && \
-    export TMUX_VERSION=2.2 && \
+    export TMUX_VERSION=2.4 && \
     curl -L "https://github.com/tmux/tmux/releases/download/${TMUX_VERSION}/tmux-${TMUX_VERSION}.tar.gz" | tar zxv && \
     cd tmux-${TMUX_VERSION} && \
     curl -L https://raw.githubusercontent.com/silenvx/PKGBUILD/master/tmux/borders.patch > borders.patch && \
@@ -130,6 +130,12 @@ RUN apt-get install -y libevent-dev ncurses-dev && \
     sudo make install && \
     cd .. && rm -rf tmux-${TMUX_VERSION} && \
     git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
+
+# ------------------
+# Install xpanes
+# ------------------
+RUN curl https://raw.githubusercontent.com/greymd/tmux-xpanes/master/bin/xpanes > /usr/bin/xpanes  && \
+    chmod +x /usr/bin/xpanes
 
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
