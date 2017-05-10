@@ -4,10 +4,11 @@ MAINTAINER Yamada, Yasuhiro <greengregson@gmail.com>
 # ------------------
 # Install Basic softwares
 # ------------------
-RUN apt update && \
+RUN echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/2/Debian_8.0/ /' > /etc/apt/sources.list.d/fish.list && \
+    apt update && \
     apt install -y locales && \
     localedef -f UTF-8 -i ja_JP ja_JP.utf8 && \
-    apt install -y git vim curl gcc make netcat nkf bc expect tree inotify-tools
+    apt install -y git vim curl gcc make netcat nkf bc expect tree fish inotify-tools
 
 # ------------------
 # Install Tmux related softwares
