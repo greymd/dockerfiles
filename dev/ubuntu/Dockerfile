@@ -2,19 +2,6 @@ FROM ubuntu:16.04
 MAINTAINER Yamada, Yasuhiro <greengregson@gmail.com>
 ENV DEBFULLNAME="Yamada, Yasuhiro" DEBEMAIL=greengregson@gmail.com
 
-
-# ------------------
-# Install Basic softwares
-# ------------------
-RUN apt update && \
-    apt install -y locales && \
-    localedef -f UTF-8 -i ja_JP ja_JP.utf8 && \
-    apt install -y git vim curl make netcat libreadline-dev nkf bc expect tree inotify-tools \
-    # In order to develop debian package (Ref: http://www.rain.hyarc.nagoya-u.ac.jp/~satoki/main/Linux/configure/make_deb.html).
-    dh-make fakeroot pbuilder \
-    # For PPA
-    software-properties-common
-
 # Add a non-root user
 RUN useradd -m -d /home/docker -s /bin/bash docker && \
      echo "docker ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
@@ -22,6 +9,18 @@ RUN useradd -m -d /home/docker -s /bin/bash docker && \
 USER docker
 ENV HOME /home/docker
 WORKDIR /home/docker
+
+# ------------------
+# Install Basic softwares
+# ------------------
+RUN sudo apt update && \
+    sudo apt install -y locales && \
+    sudo localedef -f UTF-8 -i ja_JP ja_JP.utf8 && \
+    sudo apt install -y git vim curl make netcat libreadline-dev nkf bc expect tree inotify-tools \
+    # In order to develop debian package (Ref: http://www.rain.hyarc.nagoya-u.ac.jp/~satoki/main/Linux/configure/make_deb.html).
+    dh-make fakeroot pbuilder \
+    # For PPA
+    software-properties-common
 
 # ------------------
 # Set dotfiles
@@ -166,5 +165,6 @@ ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
 ENV LC_ALL ja_JP.UTF-8
 
+USER root
 # Cleaning
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
