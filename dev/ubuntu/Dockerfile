@@ -86,7 +86,7 @@ RUN cd $HOME && \
 # ------------------
 RUN cd $HOME && \
     curl -L https://github.com/monochromegane/the_platinum_searcher/releases/download/v2.1.5/pt_linux_amd64.tar.gz | tar zxv && \
-    cp pt_linux_amd64/pt /usr/local/bin && \
+    sudo cp pt_linux_amd64/pt /usr/local/bin && \
     rm -rf pt_linux_amd64
 
 
@@ -143,8 +143,8 @@ RUN sudo apt install -y libevent-dev ncurses-dev && \
 # ------------------
 # Install xpanes
 # ------------------
-RUN curl https://raw.githubusercontent.com/greymd/tmux-xpanes/master/bin/xpanes > /usr/bin/xpanes  && \
-    chmod +x /usr/bin/xpanes
+RUN sudo curl https://raw.githubusercontent.com/greymd/tmux-xpanes/master/bin/xpanes > /usr/bin/xpanes  && \
+    sudo chmod +x /usr/bin/xpanes
 
 # ------------------
 # Install eclim requirements
