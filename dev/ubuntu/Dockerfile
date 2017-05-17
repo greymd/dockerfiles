@@ -2,6 +2,9 @@ FROM ubuntu:16.04
 MAINTAINER Yamada, Yasuhiro <greengregson@gmail.com>
 ENV DEBFULLNAME="Yamada, Yasuhiro" DEBEMAIL=greengregson@gmail.com
 
+# Prepare sudo
+RUN apt update && apt install -y sudo
+
 # Add a non-root user
 RUN useradd -m -d /home/docker -s /bin/bash docker && \
      echo "docker ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
@@ -13,8 +16,7 @@ WORKDIR /home/docker
 # ------------------
 # Install Basic softwares
 # ------------------
-RUN sudo apt update && \
-    sudo apt install -y locales && \
+RUN sudo apt install -y locales && \ 
     sudo localedef -f UTF-8 -i ja_JP ja_JP.utf8 && \
     sudo apt install -y git vim curl make netcat libreadline-dev nkf bc expect tree inotify-tools \
     # In order to develop debian package (Ref: http://www.rain.hyarc.nagoya-u.ac.jp/~satoki/main/Linux/configure/make_deb.html).
@@ -165,6 +167,6 @@ ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
 ENV LC_ALL ja_JP.UTF-8
 
-USER root
 # Cleaning
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN sudo apt clean && \
+    sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
