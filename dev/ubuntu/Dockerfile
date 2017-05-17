@@ -137,9 +137,26 @@ RUN apt-get install -y libevent-dev ncurses-dev && \
 RUN curl https://raw.githubusercontent.com/greymd/tmux-xpanes/master/bin/xpanes > /usr/bin/xpanes  && \
     chmod +x /usr/bin/xpanes
 
+# ------------------
+# Install eclim requirements
+# ------------------
+RUN apt-get install -y openjdk-8-jdk ant maven \
+                        xvfb xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic
+
+# ------------------
+# Installing Eclipse & eclim
+# ------------------
+RUN cd /root && \
+    curl -L "http://ftp.jaist.ac.jp/pub/eclipse/technology/epp/downloads/release/neon/3/eclipse-jee-neon-3-linux-gtk-x86_64.tar.gz" | tar zxv && \
+    mkdir -p /root/workspace && \
+    mkdir -p /root/reps && \
+    cd /root/reps && \
+    git clone git://github.com/ervandew/eclim.git && \
+    cd eclim && ant -Declipse.home=/root/eclipse
+
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
 ENV LC_ALL ja_JP.UTF-8
 
 # Cleaning
-RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
