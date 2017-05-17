@@ -15,6 +15,14 @@ RUN apt update && \
     # For PPA
     software-properties-common
 
+# Add a non-root user
+RUN useradd -m -d /home/docker -s /bin/bash docker && \
+     echo "docker ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+USER docker
+ENV HOME /home/docker
+WORKDIR /home/docker
+
 # ------------------
 # Set dotfiles
 # ------------------
@@ -29,7 +37,7 @@ RUN mkdir -p $HOME/reps/greymd && \
 # ------------------
 # Install Ruby
 # ------------------
-RUN apt install -y build-essential libssl-dev libffi-dev && \
+RUN sudo apt install -y build-essential libssl-dev libffi-dev && \
     git clone https://github.com/sstephenson/rbenv.git $HOME/.rbenv && \
     git clone https://github.com/sstephenson/ruby-build.git $HOME/.rbenv/plugins/ruby-build && \
     $HOME/.rbenv/bin/rbenv install 2.3.0 && \
@@ -38,7 +46,7 @@ RUN apt install -y build-essential libssl-dev libffi-dev && \
 # ------------------
 # Install zplug
 # ------------------
-RUN apt install -y zsh python && \
+RUN sudo apt install -y zsh python && \
     export ZPLUG_HOME=$HOME/.zplug && \
     git clone https://github.com/zplug/zplug $ZPLUG_HOME
 
@@ -55,13 +63,13 @@ RUN zsh --rcs $HOME/.zshrc -c 'antigen-update'
 # Install universal-ctags
 # ------------------
 # Ref: https://github.com/universal-ctags/ctags/blob/master/docs/autotools.rst
-RUN apt install -y dh-autoreconf pkg-config && \
+RUN sudo apt install -y dh-autoreconf pkg-config && \
     git clone https://github.com/universal-ctags/ctags.git $HOME/reps/universal-ctags/ctags && \
     cd $HOME/reps/universal-ctags/ctags && \
     ./autogen.sh && \
     ./configure && \
     make && \
-    make install
+    sudo make install
 
 # ------------------
 # Install Go
@@ -69,8 +77,8 @@ RUN apt install -y dh-autoreconf pkg-config && \
 RUN cd $HOME && \
     mkdir $HOME/.go && \
     curl -L https://storage.googleapis.com/golang/go1.7.5.linux-amd64.tar.gz | tar zxv && \
-    mv go /usr/local && \
-    ls /usr/local/go/bin/ | sed 's;.*;ln -s /usr/local/go/bin/& /usr/local/bin/&;' | sh
+    sudo mv go /usr/local && \
+    ls /usr/local/go/bin/ | sed 's;.*;sudo ln -s /usr/local/go/bin/& /usr/local/bin/&;' | sh
 
 # ------------------
 # Install pt (does not work...)
@@ -85,7 +93,7 @@ RUN cd $HOME && \
 # Install fzy
 # ------------------
 RUN cd $HOME && \
-    apt install -y wget && \
+    sudo apt install -y wget && \
     wget https://github.com/jhawthorn/fzy/releases/download/0.8/fzy_0.8-1_amd64.deb && \
     dpkg -i fzy_0.8-1_amd64.deb && \
     rm fzy_0.8-1_amd64.deb
@@ -94,18 +102,18 @@ RUN cd $HOME && \
 # Install GlueLang
 # ------------------
 RUN cd $HOME && \
-    apt install -y g++ && \
+    sudo apt install -y g++ && \
     git clone https://github.com/ryuichiueda/GlueLang.git && \
     cd GlueLang && \
     make && \
-    make install && \
+    sudo make install && \
     cd $HOME && \
     rm -rf GlueLang
 
 # ------------------
 # Vim settings
 # ------------------
-RUN apt install -y vim && \
+RUN sudo apt install -y vim && \
     mkdir -p $HOME/.cache/dein && \
     curl -L https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > $HOME/installer.sh && \
     sh $HOME/installer.sh $HOME/.cache/dein
@@ -120,7 +128,7 @@ RUN cd $HOME/.cache/dein/repos/github.com/Shougo/vimproc.vim && \
 # ------------------
 # Install Tmux related softwares
 # ------------------
-RUN apt-get install -y libevent-dev ncurses-dev && \
+RUN sudo apt install -y libevent-dev ncurses-dev && \
     export TMUX_VERSION=2.4 && \
     curl -L "https://github.com/tmux/tmux/releases/download/${TMUX_VERSION}/tmux-${TMUX_VERSION}.tar.gz" | tar zxv && \
     cd tmux-${TMUX_VERSION} && \
@@ -140,19 +148,19 @@ RUN curl https://raw.githubusercontent.com/greymd/tmux-xpanes/master/bin/xpanes 
 # ------------------
 # Install eclim requirements
 # ------------------
-RUN apt-get install -y openjdk-8-jdk ant maven \
+RUN sudo apt install -y openjdk-8-jdk ant maven \
                         xvfb xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic
 
 # ------------------
 # Installing Eclipse & eclim
 # ------------------
-RUN cd /root && \
+RUN cd $HOME && \
     curl -L "http://ftp.jaist.ac.jp/pub/eclipse/technology/epp/downloads/release/neon/3/eclipse-jee-neon-3-linux-gtk-x86_64.tar.gz" | tar zxv && \
-    mkdir -p /root/workspace && \
-    mkdir -p /root/reps && \
-    cd /root/reps && \
+    mkdir -p $HOME/workspace && \
+    mkdir -p $HOME/reps && \
+    cd $HOME/reps && \
     git clone git://github.com/ervandew/eclim.git && \
-    cd eclim && ant -Declipse.home=/root/eclipse
+    cd eclim && ant -Declipse.home=$HOME/eclipse
 
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
