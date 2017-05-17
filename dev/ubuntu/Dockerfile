@@ -11,6 +11,7 @@ RUN useradd -m -d /home/docker -s /bin/bash docker && \
 
 USER docker
 ENV HOME /home/docker
+ENV USER_NAME docker
 WORKDIR /home/docker
 
 # # ------------------
@@ -151,7 +152,7 @@ WORKDIR /home/docker
 # ------------------
 RUN sudo apt install -y openjdk-8-jdk ant maven \
                         xvfb x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic x11-apps \
-                        wget
+                        wget curl
 
 # ------------------
 # Installing Eclipse & eclim
@@ -166,8 +167,6 @@ RUN cd $HOME && \
     # git clone git://github.com/ervandew/eclim.git reps/eclim && \
     # cd /reps/eclim && ant -Declipse.home=/home/docker/eclipse
 
-ENV DISPLAY :1
-
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
 ENV LC_ALL ja_JP.UTF-8
@@ -175,3 +174,9 @@ ENV LC_ALL ja_JP.UTF-8
 # Cleaning
 RUN sudo apt clean && \
     sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Display settings
+ENV DISPLAY :1
+ADD entrypoint.sh /sbin/entrypoint.sh
+RUN chmod a+x /sbin/entrypoint.sh
+ENTRYPOINT ["/sbin/entrypoint.sh"]
