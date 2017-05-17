@@ -143,7 +143,7 @@ RUN sudo apt install -y libevent-dev ncurses-dev && \
 # ------------------
 # Install xpanes
 # ------------------
-RUN sudo curl https://raw.githubusercontent.com/greymd/tmux-xpanes/master/bin/xpanes > /usr/bin/xpanes  && \
+RUN curl https://raw.githubusercontent.com/greymd/tmux-xpanes/master/bin/xpanes | sudo tee /usr/bin/xpanes > /dev/null && \
     sudo chmod +x /usr/bin/xpanes
 
 # ------------------
