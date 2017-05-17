@@ -161,7 +161,8 @@ RUN cd $HOME && \
     mkdir -p $HOME/reps && \
     cd $HOME/reps && \
     git clone git://github.com/ervandew/eclim.git && \
-    cd eclim && ant -Declipse.home=$HOME/eclipse
+    cd eclim && ant -Declipse.home=$HOME/eclipse && \
+    rm -rf /reps/eclim
 
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
