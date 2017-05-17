@@ -152,7 +152,7 @@ WORKDIR /home/docker
 # ------------------
 RUN sudo apt install -y openjdk-8-jdk ant maven \
                         xvfb x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic x11-apps \
-                        wget curl
+                        wget curl git
 
 # ------------------
 # Installing Eclipse & eclim
@@ -162,10 +162,12 @@ RUN cd $HOME && \
     mkdir -p $HOME/.vim && \
     curl -L "http://ftp.jaist.ac.jp/pub/eclipse/technology/epp/downloads/release/neon/3/eclipse-jee-neon-3-linux-gtk-x86_64.tar.gz" | tar zxv && \
     wget "https://github.com/ervandew/eclim/releases/download/2.6.0/eclim_2.6.0.jar" && \
-    java -Dvim.files=$HOME/.vim -Declipse.home=$HOME/eclipse -jar eclim_2.6.0.jar install && \
-    rm $HOME/eclim_2.6.0.jar
-    # git clone git://github.com/ervandew/eclim.git reps/eclim && \
-    # cd /reps/eclim && ant -Declipse.home=/home/docker/eclipse
+    mkdir -p $HOME/reps && \
+    git clone git://github.com/ervandew/eclim.git reps/eclim && \
+    cd $HOME/reps/eclim && \
+    ant -Declipse.home=/home/docker/eclipse
+    # java -Dvim.files=$HOME/.vim -Declipse.home=$HOME/eclipse -jar $HOME/eclim_2.6.0.jar install && \
+    # rm $HOME/eclim_2.6.0.jar
 
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
