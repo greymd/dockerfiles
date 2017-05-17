@@ -96,7 +96,7 @@ RUN cd $HOME && \
 RUN cd $HOME && \
     sudo apt install -y wget && \
     wget https://github.com/jhawthorn/fzy/releases/download/0.8/fzy_0.8-1_amd64.deb && \
-    dpkg -i fzy_0.8-1_amd64.deb && \
+    sudo dpkg -i fzy_0.8-1_amd64.deb && \
     rm fzy_0.8-1_amd64.deb
 
 # ------------------
