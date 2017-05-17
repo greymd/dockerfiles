@@ -2,14 +2,23 @@ FROM ubuntu:16.04
 MAINTAINER Yamada, Yasuhiro <greengregson@gmail.com>
 ENV DEBFULLNAME="Yamada, Yasuhiro" DEBEMAIL=greengregson@gmail.com
 
+# Prepare sudo
+RUN apt update && apt install -y sudo
+
+# Add a non-root user
+RUN useradd -m -d /home/docker -s /bin/bash docker && \
+     echo "docker ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+USER docker
+ENV HOME /home/docker
+WORKDIR /home/docker
 
 # ------------------
 # Install Basic softwares
 # ------------------
-RUN apt update && \
-    apt install -y locales && \
-    localedef -f UTF-8 -i ja_JP ja_JP.utf8 && \
-    apt install -y git vim curl make netcat libreadline-dev nkf bc expect tree inotify-tools \
+RUN sudo apt install -y locales && \ 
+    sudo localedef -f UTF-8 -i ja_JP ja_JP.utf8 && \
+    sudo apt install -y git vim curl make netcat libreadline-dev nkf bc expect tree inotify-tools \
     # In order to develop debian package (Ref: http://www.rain.hyarc.nagoya-u.ac.jp/~satoki/main/Linux/configure/make_deb.html).
     dh-make fakeroot pbuilder \
     # For PPA
@@ -29,7 +38,7 @@ RUN mkdir -p $HOME/reps/greymd && \
 # ------------------
 # Install Ruby
 # ------------------
-RUN apt install -y build-essential libssl-dev libffi-dev libreadline-dev && \
+RUN sudo apt install -y build-essential libssl-dev libffi-dev libreadline-dev && \
     git clone https://github.com/sstephenson/rbenv.git $HOME/.rbenv && \
     git clone https://github.com/sstephenson/ruby-build.git $HOME/.rbenv/plugins/ruby-build && \
     $HOME/.rbenv/bin/rbenv install 2.3.0 && \
@@ -38,7 +47,7 @@ RUN apt install -y build-essential libssl-dev libffi-dev libreadline-dev && \
 # ------------------
 # Install zplug
 # ------------------
-RUN apt install -y zsh python && \
+RUN sudo apt install -y zsh python && \
     export ZPLUG_HOME=$HOME/.zplug && \
     git clone https://github.com/zplug/zplug $ZPLUG_HOME
 
@@ -55,13 +64,13 @@ RUN zsh --rcs $HOME/.zshrc -c 'antigen-update'
 # Install universal-ctags
 # ------------------
 # Ref: https://github.com/universal-ctags/ctags/blob/master/docs/autotools.rst
-RUN apt install -y dh-autoreconf pkg-config && \
+RUN sudo apt install -y dh-autoreconf pkg-config && \
     git clone https://github.com/universal-ctags/ctags.git $HOME/reps/universal-ctags/ctags && \
     cd $HOME/reps/universal-ctags/ctags && \
     ./autogen.sh && \
     ./configure && \
     make && \
-    make install
+    sudo make install
 
 # ------------------
 # Install Go
@@ -69,15 +78,15 @@ RUN apt install -y dh-autoreconf pkg-config && \
 RUN cd $HOME && \
     mkdir $HOME/.go && \
     curl -L https://storage.googleapis.com/golang/go1.7.5.linux-amd64.tar.gz | tar zxv && \
-    mv go /usr/local && \
-    ls /usr/local/go/bin/ | sed 's;.*;ln -s /usr/local/go/bin/& /usr/local/bin/&;' | sh
+    sudo mv go /usr/local && \
+    ls /usr/local/go/bin/ | sed 's;.*;sudo ln -s /usr/local/go/bin/& /usr/local/bin/&;' | sh
 
 # ------------------
 # Install pt (does not work...)
 # ------------------
 RUN cd $HOME && \
     curl -L https://github.com/monochromegane/the_platinum_searcher/releases/download/v2.1.5/pt_linux_amd64.tar.gz | tar zxv && \
-    cp pt_linux_amd64/pt /usr/local/bin && \
+    sudo cp pt_linux_amd64/pt /usr/local/bin && \
     rm -rf pt_linux_amd64
 
 
@@ -85,27 +94,27 @@ RUN cd $HOME && \
 # Install fzy
 # ------------------
 RUN cd $HOME && \
-    apt install -y wget && \
+    sudo apt install -y wget && \
     wget https://github.com/jhawthorn/fzy/releases/download/0.8/fzy_0.8-1_amd64.deb && \
-    dpkg -i fzy_0.8-1_amd64.deb && \
+    sudo dpkg -i fzy_0.8-1_amd64.deb && \
     rm fzy_0.8-1_amd64.deb
 
 # ------------------
 # Install GlueLang
 # ------------------
 RUN cd $HOME && \
-    apt install -y g++ && \
+    sudo apt install -y g++ && \
     git clone https://github.com/ryuichiueda/GlueLang.git && \
     cd GlueLang && \
     make && \
-    make install && \
+    sudo make install && \
     cd $HOME && \
     rm -rf GlueLang
 
 # ------------------
 # Vim settings
 # ------------------
-RUN apt install -y vim && \
+RUN sudo apt install -y vim && \
     mkdir -p $HOME/.cache/dein && \
     curl -L https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > $HOME/installer.sh && \
     sh $HOME/installer.sh $HOME/.cache/dein
@@ -120,8 +129,8 @@ RUN cd $HOME/.cache/dein/repos/github.com/Shougo/vimproc.vim && \
 # ------------------
 # Install Tmux related softwares
 # ------------------
-RUN apt-get install -y libevent-dev ncurses-dev && \
-    export TMUX_VERSION=2.2 && \
+RUN sudo apt install -y libevent-dev ncurses-dev && \
+    export TMUX_VERSION=2.4 && \
     curl -L "https://github.com/tmux/tmux/releases/download/${TMUX_VERSION}/tmux-${TMUX_VERSION}.tar.gz" | tar zxv && \
     cd tmux-${TMUX_VERSION} && \
     curl -L https://raw.githubusercontent.com/silenvx/PKGBUILD/master/tmux/borders.patch > borders.patch && \
@@ -131,9 +140,32 @@ RUN apt-get install -y libevent-dev ncurses-dev && \
     cd .. && rm -rf tmux-${TMUX_VERSION} && \
     git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
 
+# ------------------
+# Install xpanes
+# ------------------
+RUN curl https://raw.githubusercontent.com/greymd/tmux-xpanes/master/bin/xpanes | sudo tee /usr/bin/xpanes > /dev/null && \
+    sudo chmod +x /usr/bin/xpanes
+
+# ------------------
+# Install eclim requirements
+# ------------------
+RUN sudo apt install -y openjdk-8-jdk ant maven \
+                        xvfb xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic
+
+# ------------------
+# Installing Eclipse & eclim
+# ------------------
+RUN cd $HOME && \
+    mkdir -p $HOME/workspace && \
+    wget "https://github.com/ervandew/eclim/releases/download/2.6.0/eclim_2.6.0.jar" && \
+    curl -L "http://ftp.jaist.ac.jp/pub/eclipse/technology/epp/downloads/release/neon/3/eclipse-jee-neon-3-linux-gtk-x86_64.tar.gz" | tar zxv && \
+    java -Dvim.files=$HOME/.vim -Declipse.home=$HOME/eclipse -jar eclim_2.6.0.jar install && \
+    rm $HOME/eclim_2.6.0.jar
+
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
 ENV LC_ALL ja_JP.UTF-8
 
 # Cleaning
-RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN sudo apt clean && \
+    sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
