@@ -152,7 +152,7 @@ WORKDIR /home/docker
 # ------------------
 RUN sudo apt install -y openjdk-8-jdk ant maven \
                         xvfb x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic x11-apps \
-                        wget curl git gcc
+                        wget curl git gcc make
 
 # ------------------
 # Installing Eclipse & eclim
