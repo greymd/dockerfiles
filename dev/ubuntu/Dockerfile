@@ -165,7 +165,6 @@ RUN cd $HOME && \
     curl -L "http://ftp.jaist.ac.jp/pub/eclipse/technology/epp/downloads/release/neon/3/eclipse-jee-neon-3-linux-gtk-x86_64.tar.gz" | tar zxv && \
     wget "https://github.com/ervandew/eclim/releases/download/2.6.0/eclim_2.6.0.jar" && \
     java -Dvim.files=$HOME/.vim -Declipse.home=$HOME/eclipse -jar $HOME/eclim_2.6.0.jar install && \
-    ln -s /home/docker/eclipse/plugins/org.eclim_2.6.0/bin/eclimd $HOME/eclipse/eclimd && \
     rm $HOME/eclim_2.6.0.jar
     # mkdir -p $HOME/reps && \
     # git clone git://github.com/ervandew/eclim.git reps/eclim && \
