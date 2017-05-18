@@ -178,7 +178,7 @@ ENV LC_ALL ja_JP.UTF-8
 RUN sudo apt clean && \
     sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-USER root
-ADD https://raw.githubusercontent.com/greymd/dockerfiles/master/dev/ubuntu/entrypoint.sh /sbin/entrypoint.sh
-RUN chmod a+x /sbin/entrypoint.sh
-ENTRYPOINT ["/sbin/entrypoint.sh"]
+# USER root
+# ADD https://raw.githubusercontent.com/greymd/dockerfiles/master/dev/ubuntu/entrypoint.sh /sbin/entrypoint.sh
+# RUN chmod a+x /sbin/entrypoint.sh
+# ENTRYPOINT ["/sbin/entrypoint.sh"]
