@@ -179,6 +179,6 @@ RUN sudo apt clean && \
 
 # Display settings
 ENV DISPLAY :1
-ADD entrypoint.sh /sbin/entrypoint.sh
-RUN chmod a+x /sbin/entrypoint.sh
-ENTRYPOINT ["/sbin/entrypoint.sh"]
+# ADD entrypoint.sh /sbin/entrypoint.sh
+# RUN chmod a+x /sbin/entrypoint.sh
+# ENTRYPOINT ["/sbin/entrypoint.sh"]
