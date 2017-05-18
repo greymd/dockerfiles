@@ -158,18 +158,17 @@ RUN sudo apt install -y openjdk-8-jdk ant maven \
 # Installing Eclipse & eclim
 # ------------------
 ENV JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF8"
+ENV DISPLAY :1
+ENV WORKSPACE /home/docker/workspace
 
 RUN cd $HOME && \
-    mkdir -p $HOME/workspace && \
+    mkdir -p $WORKSPACE && \
     mkdir -p $HOME/.vim && \
     curl -L "http://ftp.jaist.ac.jp/pub/eclipse/technology/epp/downloads/release/neon/3/eclipse-jee-neon-3-linux-gtk-x86_64.tar.gz" | tar zxv && \
     wget "https://github.com/ervandew/eclim/releases/download/2.6.0/eclim_2.6.0.jar" && \
     java -Dvim.files=$HOME/.vim -Declipse.home=$HOME/eclipse -jar $HOME/eclim_2.6.0.jar install && \
-    rm $HOME/eclim_2.6.0.jar
-    # mkdir -p $HOME/reps && \
-    # git clone git://github.com/ervandew/eclim.git reps/eclim && \
-    # ant -Declipse.home=/home/docker/eclipse && \
-    # cd $HOME/reps/eclim
+    rm $HOME/eclim_2.6.0.jar && \
+    echo "Xvfb :1 -screen 0 1024x768x24 &" >> /etc/profile
 
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
@@ -179,8 +178,7 @@ ENV LC_ALL ja_JP.UTF-8
 RUN sudo apt clean && \
     sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Display settings
-ENV DISPLAY :1
-# ADD entrypoint.sh /sbin/entrypoint.sh
-# RUN chmod a+x /sbin/entrypoint.sh
-# ENTRYPOINT ["/sbin/entrypoint.sh"]
+USER root
+ADD https://raw.githubusercontent.com/greymd/dockerfiles/master/dev/ubuntu/entrypoint.sh /sbin/entrypoint.sh
+RUN chmod a+x /sbin/entrypoint.sh
+ENTRYPOINT ["/sbin/entrypoint.sh"]
