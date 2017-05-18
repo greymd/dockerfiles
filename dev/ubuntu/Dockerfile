@@ -164,8 +164,8 @@ RUN cd $HOME && \
     wget "https://github.com/ervandew/eclim/releases/download/2.6.0/eclim_2.6.0.jar" && \
     mkdir -p $HOME/reps && \
     git clone git://github.com/ervandew/eclim.git reps/eclim && \
-    cd $HOME/reps/eclim && \
-    ant -Declipse.home=/home/docker/eclipse
+    cd $HOME/reps/eclim
+    # ant -Declipse.home=/home/docker/eclipse
     # java -Dvim.files=$HOME/.vim -Declipse.home=$HOME/eclipse -jar $HOME/eclim_2.6.0.jar install && \
     # rm $HOME/eclim_2.6.0.jar
 
