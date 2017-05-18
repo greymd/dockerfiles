@@ -168,7 +168,7 @@ RUN cd $HOME && \
     wget "https://github.com/ervandew/eclim/releases/download/2.6.0/eclim_2.6.0.jar" && \
     java -Dvim.files=$HOME/.vim -Declipse.home=$HOME/eclipse -jar $HOME/eclim_2.6.0.jar install && \
     rm $HOME/eclim_2.6.0.jar && \
-    echo 'if ( type Xvfb &> /dev/null ) && ! ( ps alx | grep -wq "[X]vfb" ) ;then nohup Xvfb :1 -screen 0 1024x768x24 &> /dev/null & fi' | tee -a /etc/profile
+    echo 'if ( type Xvfb &> /dev/null ) && ! ( ps alx | grep -wq "[X]vfb" ) ;then nohup Xvfb :1 -screen 0 1024x768x24 &> /dev/null & fi' | sudo tee -a /etc/profile
 
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
