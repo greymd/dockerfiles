@@ -14,17 +14,17 @@ ENV HOME /home/docker
 ENV USER_NAME docker
 WORKDIR /home/docker
 
-# # ------------------
-# # Install Basic softwares
-# # ------------------
-# RUN sudo apt install -y locales && \ 
-#     sudo localedef -f UTF-8 -i ja_JP ja_JP.utf8 && \
-#     sudo apt install -y git vim curl make netcat libreadline-dev nkf bc expect tree inotify-tools \
-#     # In order to develop debian package (Ref: http://www.rain.hyarc.nagoya-u.ac.jp/~satoki/main/Linux/configure/make_deb.html).
-#     dh-make fakeroot pbuilder \
-#     # For PPA
-#     software-properties-common
-# 
+# ------------------
+# Install Basic softwares
+# ------------------
+RUN sudo apt install -y locales && \ 
+    sudo localedef -f UTF-8 -i ja_JP ja_JP.utf8 && \
+    sudo apt install -y git vim curl make netcat libreadline-dev nkf bc expect tree inotify-tools \
+    # In order to develop debian package (Ref: http://www.rain.hyarc.nagoya-u.ac.jp/~satoki/main/Linux/configure/make_deb.html).
+    dh-make fakeroot pbuilder \
+    # For PPA
+    software-properties-common
+
 # # ------------------
 # # Set dotfiles
 # # ------------------
@@ -157,17 +157,20 @@ RUN sudo apt install -y openjdk-8-jdk ant maven \
 # ------------------
 # Installing Eclipse & eclim
 # ------------------
+ENV JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF8"
+
 RUN cd $HOME && \
     mkdir -p $HOME/workspace && \
     mkdir -p $HOME/.vim && \
     curl -L "http://ftp.jaist.ac.jp/pub/eclipse/technology/epp/downloads/release/neon/3/eclipse-jee-neon-3-linux-gtk-x86_64.tar.gz" | tar zxv && \
     wget "https://github.com/ervandew/eclim/releases/download/2.6.0/eclim_2.6.0.jar" && \
-    mkdir -p $HOME/reps && \
-    git clone git://github.com/ervandew/eclim.git reps/eclim && \
-    cd $HOME/reps/eclim
-    # ant -Declipse.home=/home/docker/eclipse
-    # java -Dvim.files=$HOME/.vim -Declipse.home=$HOME/eclipse -jar $HOME/eclim_2.6.0.jar install && \
-    # rm $HOME/eclim_2.6.0.jar
+    java -Dvim.files=$HOME/.vim -Declipse.home=$HOME/eclipse -jar $HOME/eclim_2.6.0.jar install && \
+    ln -s /home/docker/eclipse/plugins/org.eclim_2.6.0/bin/eclimd $HOME/eclipse/eclimd && \
+    rm $HOME/eclim_2.6.0.jar
+    # mkdir -p $HOME/reps && \
+    # git clone git://github.com/ervandew/eclim.git reps/eclim && \
+    # ant -Declipse.home=/home/docker/eclipse && \
+    # cd $HOME/reps/eclim
 
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
