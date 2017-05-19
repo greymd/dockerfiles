@@ -118,7 +118,8 @@ RUN cd $HOME && \
 RUN sudo apt install -y vim && \
     mkdir -p $HOME/.cache/dein && \
     curl -L https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > $HOME/installer.sh && \
-    sh $HOME/installer.sh $HOME/.cache/dein
+    sh $HOME/installer.sh $HOME/.cache/dein && \
+    rm $HOME/installer.sh
 
 # Install dein plugins
 RUN yes | vim -c ":silent call dein#install() | :q"
