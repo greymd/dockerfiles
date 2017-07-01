@@ -19,7 +19,7 @@ WORKDIR /home/docker
 # ------------------
 RUN sudo apt install -y locales && \ 
     sudo localedef -f UTF-8 -i ja_JP ja_JP.utf8 && \
-    sudo apt install -y git vim curl make netcat libreadline-dev nkf bc expect tree inotify-tools \
+    sudo apt install -y git vim curl make netcat libreadline-dev nkf bc expect tree inotify-tools sl \
     # In order to develop debian package (Ref: http://www.rain.hyarc.nagoya-u.ac.jp/~satoki/main/Linux/configure/make_deb.html).
     dh-make fakeroot pbuilder \
     # For PPA
