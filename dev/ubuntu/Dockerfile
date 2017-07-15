@@ -152,12 +152,12 @@ RUN curl https://raw.githubusercontent.com/greymd/tmux-xpanes/master/bin/xpanes 
 # Install Node environment
 # ------------------
 RUN git clone "git://github.com/creationix/nvm.git" $HOME/.nvm && \
-    bash -c 'source $HOME/.nvm/nvm.sh && nvm install v8.1.4 && npm install --global yarn'
+    bash -c 'source $HOME/.nvm/nvm.sh && nvm install v8.1.4 && npm install --global yarn faker-cli emspect'
 
 # ------------------
 # Install eclim requirements
 # ------------------
-RUN sudo apt install -y openjdk-8-jdk ant maven \
+RUN sudo apt install -y openjdk-8-jdk ant maven gradle \
                         xvfb x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic x11-apps \
                         wget curl git gcc make
 
