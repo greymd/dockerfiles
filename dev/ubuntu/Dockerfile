@@ -149,6 +149,14 @@ RUN curl https://raw.githubusercontent.com/greymd/tmux-xpanes/master/bin/xpanes 
     sudo chmod +x /usr/bin/xpanes
 
 # ------------------
+# Install Node environment
+# ------------------
+RUN git clone git://github.com/creationix/nvm.git $HOME/.nvm && \
+    source $HOME/.nvm/nvm.sh && \
+    nvm install v8.1.4 && \
+    npm install --global yarn
+
+# ------------------
 # Install eclim requirements
 # ------------------
 RUN sudo apt install -y openjdk-8-jdk ant maven \
