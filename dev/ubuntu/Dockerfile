@@ -151,10 +151,8 @@ RUN curl https://raw.githubusercontent.com/greymd/tmux-xpanes/master/bin/xpanes 
 # ------------------
 # Install Node environment
 # ------------------
-RUN git clone git://github.com/creationix/nvm.git $HOME/.nvm && \
-    source $HOME/.nvm/nvm.sh && \
-    nvm install v8.1.4 && \
-    npm install --global yarn
+RUN git clone "git://github.com/creationix/nvm.git" $HOME/.nvm && \
+    bash -c 'source $HOME/.nvm/nvm.sh && nvm install v8.1.4 && npm install --global yarn'
 
 # ------------------
 # Install eclim requirements
