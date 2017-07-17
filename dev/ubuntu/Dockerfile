@@ -184,4 +184,4 @@ ENV LC_ALL ja_JP.UTF-8
 RUN sudo apt clean && \
     sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-ENTRYPOINT if ( type Xvfb &> /dev/null ) && ! ( ps alx | grep -wq '[X]vfb' ) ;then nohup Xvfb :1 -screen 0 1024x768x24 &> /dev/null & fi
+CMD if ( type Xvfb > /dev/null 2>&1 ) && ! ( ps alx | grep -wq '[X]vfb' ) ;then nohup Xvfb :1 -screen 0 1024x768x24 &> /dev/null & fi; zsh
