@@ -174,8 +174,7 @@ RUN cd $HOME && \
     curl -L "http://ftp.jaist.ac.jp/pub/eclipse/technology/epp/downloads/release/neon/3/eclipse-jee-neon-3-linux-gtk-x86_64.tar.gz" | tar zxv && \
     wget "https://github.com/ervandew/eclim/releases/download/2.6.0/eclim_2.6.0.jar" && \
     java -Dvim.files=$HOME/.vim -Declipse.home=$HOME/eclipse -jar $HOME/eclim_2.6.0.jar install && \
-    rm $HOME/eclim_2.6.0.jar && \
-    echo 'if ( type Xvfb &> /dev/null ) && ! ( ps alx | grep -wq "[X]vfb" ) ;then nohup Xvfb :1 -screen 0 1024x768x24 &> /dev/null & fi' | sudo tee -a /etc/profile
+    rm $HOME/eclim_2.6.0.jar
 
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
@@ -184,3 +183,5 @@ ENV LC_ALL ja_JP.UTF-8
 # Cleaning
 RUN sudo apt clean && \
     sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+ENTRYPOINT if ( type Xvfb &> /dev/null ) && ! ( ps alx | grep -wq '[X]vfb' ) ;then nohup Xvfb :1 -screen 0 1024x768x24 &> /dev/null & fi
