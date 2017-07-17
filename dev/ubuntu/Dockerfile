@@ -157,9 +157,10 @@ RUN git clone "git://github.com/creationix/nvm.git" $HOME/.nvm && \
 # ------------------
 # Install eclim requirements
 # ------------------
-RUN sudo apt install -y openjdk-8-jdk ant maven gradle \
-                        xvfb x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic x11-apps \
-                        wget curl git gcc make
+RUN sudo apt install -y xvfb x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic x11-apps \
+                        wget curl git gcc make zip && \
+    curl -s "https://get.sdkman.io" | bash && \
+    bash -c 'source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install java 8u131-zulu && sdk install gradle 4.0.1 && sdk install ant 1.10.1 && sdk install maven 3.5.0'
 
 # ------------------
 # Installing Eclipse & eclim
@@ -184,4 +185,4 @@ ENV LC_ALL ja_JP.UTF-8
 RUN sudo apt clean && \
     sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-CMD if ( type Xvfb > /dev/null 2>&1 ) && ! ( ps alx | grep -wq '[X]vfb' ) ;then nohup Xvfb :1 -screen 0 1024x768x24 &> /dev/null & fi; zsh
+CMD if ( type Xvfb > /dev/null 2>&1 ) && ! ( ps alx | grep -wq '[X]vfb' ) ;then nohup Xvfb :1 -screen 0 1024x768x24 &> /dev/null & fi; zsh -c 'tmux -2'
