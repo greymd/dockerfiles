@@ -43,7 +43,8 @@ RUN sudo apt install -y build-essential libssl-dev libffi-dev libreadline-dev &&
     git clone https://github.com/sstephenson/rbenv.git $HOME/.rbenv && \
     git clone https://github.com/sstephenson/ruby-build.git $HOME/.rbenv/plugins/ruby-build && \
     $HOME/.rbenv/bin/rbenv install 2.3.0 && \
-    $HOME/.rbenv/bin/rbenv global 2.3.0
+    $HOME/.rbenv/bin/rbenv global 2.3.0 && \
+    $HOME/.rbenv/shims/gem install cureutils gist snacknomama matsuya
 
 # ------------------
 # Install zplug
