@@ -133,7 +133,7 @@ RUN cd $HOME/.cache/dein/repos/github.com/Shougo/vimproc.vim && \
 # Install Tmux related softwares
 # ------------------
 RUN sudo apt install -y libevent-dev ncurses-dev && \
-    export TMUX_VERSION=2.4 && \
+    export TMUX_VERSION=2.5 && \
     curl -L "https://github.com/tmux/tmux/releases/download/${TMUX_VERSION}/tmux-${TMUX_VERSION}.tar.gz" | tar zxv && \
     cd tmux-${TMUX_VERSION} && \
     curl -L https://raw.githubusercontent.com/silenvx/PKGBUILD/master/tmux/borders.patch > borders.patch && \
