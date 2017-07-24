@@ -182,7 +182,7 @@ RUN cd $HOME && \
     mkdir -p $HOME/.vim && \
     curl -L "http://ftp.jaist.ac.jp/pub/eclipse/technology/epp/downloads/release/neon/3/eclipse-jee-neon-3-linux-gtk-x86_64.tar.gz" | tar zxv && \
     wget "https://github.com/ervandew/eclim/releases/download/2.7.0/eclim_2.7.0.jar" && \
-    bash -c 'source "$HOME/.sdkman/bin/sdkman-init.sh" && java -Dvim.files=$HOME/.vim -Declipse.home=$HOME/eclipse -jar $HOME/eclim_2.7.0.jar install' && \
+    bash -c 'source "$HOME/.sdkman/bin/sdkman-init.sh" && $HOME/.sdkman/candidates/java/current/bin/java -Dvim.files=$HOME/.vim -Declipse.home=$HOME/eclipse -jar $HOME/eclim_2.7.0.jar install' && \
     rm $HOME/eclim_2.7.0.jar
 
 ENV LANG ja_JP.UTF-8
