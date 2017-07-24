@@ -37,6 +37,13 @@ RUN mkdir -p $HOME/reps/greymd && \
     ls -a | grep '^\.' | grep -v '^\.git$' | grep -vwF '.' | sed 's/^.*/echo ln -s $(pwd)\/& $HOME\/&/' | sh | sh
 
 # ------------------
+# Install Egison
+# ------------------
+RUN sudo apt install -y haskell-platform libncurses-dev && \
+    cabal update && \
+    cabal install egison egison-tutorial
+
+# ------------------
 # Install Ruby
 # ------------------
 RUN sudo apt install -y build-essential libssl-dev libffi-dev libreadline-dev && \
