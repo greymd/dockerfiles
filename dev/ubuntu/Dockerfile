@@ -168,7 +168,7 @@ RUN git clone "git://github.com/creationix/nvm.git" $HOME/.nvm && \
 RUN sudo apt install -y xvfb x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic x11-apps \
                         wget curl git gcc make zip libswt-gtk-3-jni && \
     curl -s "https://get.sdkman.io" | bash && \
-    bash -c 'source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install java 8u131-oracle && sdk install gradle 4.0.1 && sdk install ant 1.10.1 && sdk install maven 3.5.0'
+    bash -c 'source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install java 8u131-zulu && sdk install gradle 4.0.1 && sdk install ant 1.10.1 && sdk install maven 3.5.0'
 
 # ------------------
 # Installing Eclipse & eclim
@@ -182,7 +182,7 @@ RUN cd $HOME && \
     mkdir -p $HOME/.vim && \
     curl -L "http://ftp.jaist.ac.jp/pub/eclipse/technology/epp/downloads/release/neon/3/eclipse-jee-neon-3-linux-gtk-x86_64.tar.gz" | tar zxv && \
     wget "https://github.com/ervandew/eclim/releases/download/2.7.0/eclim_2.7.0.jar" && \
-    bash -c 'source "$HOME/.sdkman/bin/sdkman-init.sh" && $HOME/.sdkman/candidates/java/current/bin/java -Dvim.files=$HOME/.vim -Declipse.home=$HOME/eclipse -jar $HOME/eclim_2.7.0.jar install' && \
+    bash -c 'source "$HOME/.sdkman/bin/sdkman-init.sh" && java -Dvim.files=$HOME/.vim -Declipse.home=$HOME/eclipse -jar $HOME/eclim_2.7.0.jar install' && \
     rm $HOME/eclim_2.7.0.jar
 
 ENV LANG ja_JP.UTF-8
