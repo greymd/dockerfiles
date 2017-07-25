@@ -185,6 +185,14 @@ RUN cd $HOME && \
     bash -c 'source "$HOME/.sdkman/bin/sdkman-init.sh" && java -Dvim.files=$HOME/.vim -Declipse.home=$HOME/eclipse -jar $HOME/eclim_2.7.0.jar install' && \
     rm $HOME/eclim_2.7.0.jar
 
+# ------------------
+# Installing useful commands
+# ------------------
+RUN mkdir "$HOME/bin" && \
+    git clone https://github.com/ShellShoccar-jpn/Parsrs.git "$HOME/Parsrs" && \
+    bash -c 'ls $HOME/Parsrs/*.sh | while read f;do cp "$f" "$HOME/bin/$(basename ${f%.sh})";done' && \
+    rm -rf "$HOME/Parsrs"
+
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
 ENV LC_ALL ja_JP.UTF-8
