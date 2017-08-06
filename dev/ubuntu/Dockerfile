@@ -186,6 +186,12 @@ RUN cd $HOME && \
     rm $HOME/eclim_2.7.0.jar
 
 # ------------------
+# Installing Lombok for eclipse
+# ------------------
+RUN printf "%s" '-Xbootclasspath/a:lombok.jar -javaagent:lombok.jar' | xargs -n 1 >> $HOME/eclipse/eclipse.ini &&
+    wget https://projectlombok.org/downloads/lombok.jar -O $HOME/eclipse/lombok.jar
+
+# ------------------
 # Installing useful commands
 # ------------------
 RUN mkdir "$HOME/bin" && \
