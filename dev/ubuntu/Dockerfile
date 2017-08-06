@@ -188,7 +188,7 @@ RUN cd $HOME && \
 # ------------------
 # Installing Lombok for eclipse
 # ------------------
-RUN printf "%s" '-Xbootclasspath/a:lombok.jar -javaagent:lombok.jar' | xargs -n 1 >> $HOME/eclipse/eclipse.ini &&
+RUN printf "%s" "-Xbootclasspath/a:lombok.jar -javaagent:lombok.jar" | xargs -n 1 >> $HOME/eclipse/eclipse.ini && \
     wget https://projectlombok.org/downloads/lombok.jar -O $HOME/eclipse/lombok.jar
 
 # ------------------
