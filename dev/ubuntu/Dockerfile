@@ -168,7 +168,7 @@ RUN git clone "git://github.com/creationix/nvm.git" $HOME/.nvm && \
 RUN sudo apt install -y xvfb x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic x11-apps \
                         wget curl git gcc make zip libswt-gtk-3-jni && \
     curl -s "https://get.sdkman.io" | bash && \
-    bash -c 'source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install java 8u131-zulu && sdk install gradle 4.0.1 && sdk install ant 1.10.1 && sdk install maven 3.5.0'
+    bash -c 'source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install java 8u131-zulu && sdk install java 9ea13-zulu && sdk install gradle 4.0.1 && sdk install ant 1.10.1 && sdk install maven 3.5.0'
 
 # ------------------
 # Installing Eclipse & eclim
