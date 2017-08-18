@@ -26,17 +26,6 @@ RUN sudo apt install -y locales && \
     software-properties-common
 
 # ------------------
-# Set dotfiles
-# ------------------
-RUN mkdir -p $HOME/reps/greymd && \
-    git clone https://github.com/greymd/dotfiles.git $HOME/reps/greymd/dotfiles && \
-    cd $HOME/reps/greymd/dotfiles && \
-    # Delete existing dotfiles
-    ls -a | grep '^\.'  | grep -vFw '.' | grep -v '^\.git$' | sed 's|^|rm -f $HOME/|' | sh && \
-    # Set links
-    ls -a | grep '^\.' | grep -v '^\.git$' | grep -vwF '.' | sed 's/^.*/echo ln -s $(pwd)\/& $HOME\/&/' | sh | sh
-
-# ------------------
 # Install Egison
 # ------------------
 RUN sudo apt install -y haskell-platform libncurses-dev && \
@@ -59,15 +48,6 @@ RUN sudo apt install -y build-essential libssl-dev libffi-dev libreadline-dev &&
 RUN sudo apt install -y zsh python && \
     export ZPLUG_HOME=$HOME/.zplug && \
     git clone https://github.com/zplug/zplug $ZPLUG_HOME
-
-# ------------------
-# Install antigen
-# ------------------
-RUN mkdir -p $HOME/reps/zsh-users/antigen && \
-    git clone https://github.com/zsh-users/antigen.git $HOME/reps/zsh-users/antigen
-
-# Install antigen plugins
-RUN zsh --rcs $HOME/.zshrc -c 'antigen-update'
 
 # ------------------
 # Install universal-ctags
@@ -120,22 +100,6 @@ RUN cd $HOME && \
     rm -rf GlueLang
 
 # ------------------
-# Vim settings
-# ------------------
-RUN sudo apt install -y vim && \
-    mkdir -p $HOME/.cache/dein && \
-    curl -L https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > $HOME/installer.sh && \
-    sh $HOME/installer.sh $HOME/.cache/dein && \
-    rm $HOME/installer.sh
-
-# Install dein plugins
-RUN yes | vim -c ":silent call dein#install() | :q"
-
-# Create vimproc_linux64.so for vimproc
-RUN cd $HOME/.cache/dein/repos/github.com/Shougo/vimproc.vim && \
-    make
-
-# ------------------
 # Install Tmux related softwares
 # ------------------
 RUN sudo apt install -y libevent-dev ncurses-dev && \
@@ -162,12 +126,54 @@ RUN git clone "git://github.com/creationix/nvm.git" $HOME/.nvm && \
     bash -c 'source $HOME/.nvm/nvm.sh && nvm install v8.1.4 && npm install --global yarn faker-cli emspect'
 
 # ------------------
+# Installing useful commands
+# ------------------
+RUN mkdir "$HOME/bin" && \
+    git clone https://github.com/ShellShoccar-jpn/Parsrs.git "$HOME/Parsrs" && \
+    bash -c 'ls $HOME/Parsrs/*.sh | while read f;do cp "$f" "$HOME/bin/$(basename ${f%.sh})";done' && \
+    rm -rf "$HOME/Parsrs"
+
+# ------------------
 # Install eclim requirements
 # ------------------
 RUN sudo apt install -y xvfb x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic x11-apps \
                         wget curl git gcc make zip libswt-gtk-3-jni && \
     curl -s "https://get.sdkman.io" | bash && \
     bash -c 'source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install java 9ea13-zulu && sdk install java 8u131-zulu && sdk use java 8u131-zulu && sdk install gradle 4.0.1 && sdk install ant 1.10.1 && sdk install maven 3.5.0'
+
+# ------------------
+# Set dotfiles
+# ------------------
+RUN mkdir -p $HOME/reps/greymd && \
+    git clone https://github.com/greymd/dotfiles.git $HOME/reps/greymd/dotfiles && \
+    cd $HOME/reps/greymd/dotfiles && \
+    # Delete existing dotfiles
+    ls -a | grep '^\.'  | grep -vFw '.' | grep -v '^\.git$' | sed 's|^|rm -f $HOME/|' | sh && \
+    # Set links
+    ls -a | grep '^\.' | grep -v '^\.git$' | grep -vwF '.' | sed 's/^.*/echo ln -s $(pwd)\/& $HOME\/&/' | sh | sh
+
+# ------------------
+# Install antigen
+# ------------------
+RUN mkdir -p $HOME/reps/zsh-users/antigen && \
+    git clone https://github.com/zsh-users/antigen.git $HOME/reps/zsh-users/antigen
+
+# Install antigen plugins
+RUN zsh --rcs $HOME/.zshrc -c 'antigen-update'
+
+# ------------------
+# Vim settings
+# ------------------
+RUN sudo apt install -y vim && \
+    mkdir -p $HOME/.cache/dein && \
+    curl -L https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > $HOME/installer.sh && \
+    sh $HOME/installer.sh $HOME/.cache/dein && \
+    rm $HOME/installer.sh
+# Install dein plugins
+RUN yes | vim -c ":silent call dein#install() | :q"
+# Create vimproc_linux64.so for vimproc
+RUN cd $HOME/.cache/dein/repos/github.com/Shougo/vimproc.vim && \
+    make
 
 # ------------------
 # Installing Eclipse & eclim
@@ -189,14 +195,6 @@ RUN cd $HOME && \
 # ------------------
 RUN printf "%s" "-Xbootclasspath/a:lombok.jar -javaagent:lombok.jar" | xargs -n 1 >> $HOME/eclipse/eclipse.ini && \
     wget https://projectlombok.org/downloads/lombok.jar -O $HOME/eclipse/lombok.jar
-
-# ------------------
-# Installing useful commands
-# ------------------
-RUN mkdir "$HOME/bin" && \
-    git clone https://github.com/ShellShoccar-jpn/Parsrs.git "$HOME/Parsrs" && \
-    bash -c 'ls $HOME/Parsrs/*.sh | while read f;do cp "$f" "$HOME/bin/$(basename ${f%.sh})";done' && \
-    rm -rf "$HOME/Parsrs"
 
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
