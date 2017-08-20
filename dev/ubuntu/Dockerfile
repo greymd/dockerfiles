@@ -134,6 +134,11 @@ RUN mkdir "$HOME/bin" && \
     rm -rf "$HOME/Parsrs"
 
 # ------------------
+# Install heroku
+# ------------------
+RUN wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
+
+# ------------------
 # Install eclim requirements
 # ------------------
 RUN sudo apt install -y xvfb x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic x11-apps \
@@ -190,11 +195,11 @@ RUN cd $HOME && \
     bash -c 'source "$HOME/.sdkman/bin/sdkman-init.sh" && java -Dvim.files=$HOME/.vim -Declipse.home=$HOME/eclipse -jar $HOME/eclim_2.7.0.jar install' && \
     rm $HOME/eclim_2.7.0.jar
 
-# ------------------
-# Installing Lombok for eclipse
-# ------------------
-RUN printf "%s" "-Xbootclasspath/a:lombok.jar -javaagent:lombok.jar" | xargs -n 1 >> $HOME/eclipse/eclipse.ini && \
-    wget https://projectlombok.org/downloads/lombok.jar -O $HOME/eclipse/lombok.jar
+# # ------------------
+# # Installing Lombok for eclipse
+# # ------------------
+# RUN printf "%s" "-Xbootclasspath/a:lombok.jar -javaagent:lombok.jar" | xargs -n 1 >> $HOME/eclipse/eclipse.ini && \
+#     wget https://projectlombok.org/downloads/lombok.jar -O $HOME/eclipse/lombok.jar
 
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
