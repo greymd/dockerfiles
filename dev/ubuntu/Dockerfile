@@ -201,6 +201,11 @@ RUN cd $HOME && \
 # RUN printf "%s" "-Xbootclasspath/a:lombok.jar -javaagent:lombok.jar" | xargs -n 1 >> $HOME/eclipse/eclipse.ini && \
 #     wget https://projectlombok.org/downloads/lombok.jar -O $HOME/eclipse/lombok.jar
 
+# ------------------
+# Install Network related tools
+# ------------------
+RUN sudo apt install -y tcpdump iputils-ping ngrep
+
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
 ENV LC_ALL ja_JP.UTF-8
