@@ -54,8 +54,8 @@ RUN sudo apt install -y zsh python && \
 # ------------------
 # Ref: https://github.com/universal-ctags/ctags/blob/master/docs/autotools.rst
 RUN sudo apt install -y dh-autoreconf pkg-config && \
-    git clone https://github.com/universal-ctags/ctags.git $HOME/reps/universal-ctags/ctags && \
-    cd $HOME/reps/universal-ctags/ctags && \
+    git clone https://github.com/universal-ctags/ctags.git $HOME/repos/universal-ctags/ctags && \
+    cd $HOME/repos/universal-ctags/ctags && \
     ./autogen.sh && \
     ./configure && \
     make && \
@@ -149,9 +149,9 @@ RUN sudo apt install -y xvfb x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfo
 # ------------------
 # Set dotfiles
 # ------------------
-RUN mkdir -p $HOME/reps/greymd && \
-    git clone https://github.com/greymd/dotfiles.git $HOME/reps/greymd/dotfiles && \
-    cd $HOME/reps/greymd/dotfiles && \
+RUN mkdir -p $HOME/repos/greymd && \
+    git clone https://github.com/greymd/dotfiles.git $HOME/repos/greymd/dotfiles && \
+    cd $HOME/repos/greymd/dotfiles && \
     # Delete existing dotfiles
     ls -a | grep '^\.'  | grep -vFw '.' | grep -v '^\.git$' | sed 's|^|rm -f $HOME/|' | sh && \
     # Set links
@@ -160,8 +160,8 @@ RUN mkdir -p $HOME/reps/greymd && \
 # ------------------
 # Install antigen
 # ------------------
-RUN mkdir -p $HOME/reps/zsh-users/antigen && \
-    git clone https://github.com/zsh-users/antigen.git $HOME/reps/zsh-users/antigen
+RUN mkdir -p $HOME/repos/zsh-users/antigen && \
+    git clone https://github.com/zsh-users/antigen.git $HOME/repos/zsh-users/antigen
 
 # Install antigen plugins
 RUN zsh --rcs $HOME/.zshrc -c 'antigen-update'

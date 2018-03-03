@@ -7,9 +7,9 @@ RUN apk --update --no-cache add ca-certificates git vim curl && \
     # ------------------
     # Set dotfiles
     # ------------------
-    mkdir -p $HOME/reps/greymd && \
-    git clone https://github.com/greymd/dotfiles.git $HOME/reps/greymd/dotfiles && \
-    cd $HOME/reps/greymd/dotfiles && \
+    mkdir -p $HOME/repos/greymd && \
+    git clone https://github.com/greymd/dotfiles.git $HOME/repos/greymd/dotfiles && \
+    cd $HOME/repos/greymd/dotfiles && \
     # Delete existing dotfiles
     ls -a | grep '^\.'  | grep -vFw '.' | grep -v '^\.git$' | sed 's|^|rm -f $HOME/|' | sh && \
     # Set links
