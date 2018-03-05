@@ -38,8 +38,8 @@ RUN sudo apt install -y haskell-platform libncurses-dev && \
 RUN sudo apt install -y build-essential libssl-dev libffi-dev libreadline-dev && \
     git clone https://github.com/sstephenson/rbenv.git $HOME/.rbenv && \
     git clone https://github.com/sstephenson/ruby-build.git $HOME/.rbenv/plugins/ruby-build && \
-    $HOME/.rbenv/bin/rbenv install 2.3.0 && \
-    $HOME/.rbenv/bin/rbenv global 2.3.0 && \
+    $HOME/.rbenv/bin/rbenv install 2.5.0 && \
+    $HOME/.rbenv/bin/rbenv global 2.5.0 && \
     $HOME/.rbenv/shims/gem install cureutils gist snacknomama matsuya
 
 # ------------------
@@ -66,7 +66,7 @@ RUN sudo apt install -y dh-autoreconf pkg-config && \
 # ------------------
 RUN cd $HOME && \
     mkdir $HOME/.go && \
-    curl -L https://storage.googleapis.com/golang/go1.7.5.linux-amd64.tar.gz | tar zxv && \
+    curl -L https://storage.googleapis.com/golang/go1.10.linux-amd64.tar.gz | tar zxv && \
     sudo mv go /usr/local && \
     ls /usr/local/go/bin/ | sed 's;.*;sudo ln -s /usr/local/go/bin/& /usr/local/bin/&;' | sh
 
