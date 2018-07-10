@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 MAINTAINER Yamada, Yasuhiro <greengregson@gmail.com>
-ENV DEBFULLNAME="Yamada, Yasuhiro" DEBEMAIL=greengregson@gmail.com
+ENV DEBFULLNAME="Yamada, Yasuhiro" DEBEMAIL=greengregson@gmail.com DEBIAN_FRONTEND=noninteractive
 
 # Prepare sudo
 RUN apt update && apt install -y sudo
