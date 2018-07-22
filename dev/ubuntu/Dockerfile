@@ -144,10 +144,10 @@ RUN wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
 # ------------------
 # Install eclim requirements
 # ------------------
-RUN sudo apt install -y xvfb x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic x11-apps \
-                        wget curl git gcc make zip libswt-gtk-3-jni && \
-    curl -s "https://get.sdkman.io" | bash && \
-    bash -c 'source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install java 9ea13-zulu && sdk install java 8u131-zulu && sdk use java 8u131-zulu && sdk install gradle 4.0.1 && sdk install ant 1.10.1 && sdk install maven 3.5.0'
+# RUN sudo apt install -y xvfb x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic x11-apps \
+#                         wget curl git gcc make zip libswt-gtk-3-jni && \
+#     curl -s "https://get.sdkman.io" | bash && \
+#     bash -c 'source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install java 9ea13-zulu && sdk install java 8u131-zulu && sdk use java 8u131-zulu && sdk install gradle 4.0.1 && sdk install ant 1.10.1 && sdk install maven 3.5.0'
 
 # ------------------
 # Set dotfiles
@@ -180,8 +180,9 @@ RUN sudo apt install -y vim && \
 # Install dein plugins
 RUN yes | vim -c ":silent call dein#install() | :q"
 # Create vimproc_linux64.so for vimproc
-RUN cd $HOME/.cache/dein/repos/github.com/Shougo/vimproc.vim && \
-    make
+RUN cd $HOME/.cache/dein/repos/github.com/Shougo/vimproc.vim && make
+# Install Go dependencies
+RUN vim -c ":GoInstallBinaries" -c ":q!"
 
 # ------------------
 # Installing Eclipse & eclim
