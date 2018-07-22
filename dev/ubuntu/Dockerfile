@@ -190,13 +190,13 @@ ENV JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF8"
 ENV DISPLAY :1
 ENV WORKSPACE /home/docker/workspace
 
-RUN cd $HOME && \
-    mkdir -p $WORKSPACE && \
-    mkdir -p $HOME/.vim && \
-    curl -L "http://ftp.jaist.ac.jp/pub/eclipse/technology/epp/downloads/release/oxygen/R/eclipse-jee-oxygen-R-linux-gtk-x86_64.tar.gz" | tar zxv && \
-    wget "https://github.com/ervandew/eclim/releases/download/2.7.0/eclim_2.7.0.jar" && \
-    bash -c 'source "$HOME/.sdkman/bin/sdkman-init.sh" && java -Dvim.files=$HOME/.vim -Declipse.home=$HOME/eclipse -jar $HOME/eclim_2.7.0.jar install' && \
-    rm $HOME/eclim_2.7.0.jar
+# RUN cd $HOME && \
+#     mkdir -p $WORKSPACE && \
+#     mkdir -p $HOME/.vim && \
+#     curl -L "http://ftp.jaist.ac.jp/pub/eclipse/technology/epp/downloads/release/oxygen/R/eclipse-jee-oxygen-R-linux-gtk-x86_64.tar.gz" | tar zxv && \
+#     wget "https://github.com/ervandew/eclim/releases/download/2.7.0/eclim_2.7.0.jar" && \
+#     bash -c 'source "$HOME/.sdkman/bin/sdkman-init.sh" && java -Dvim.files=$HOME/.vim -Declipse.home=$HOME/eclipse -jar $HOME/eclim_2.7.0.jar install' && \
+#     rm $HOME/eclim_2.7.0.jar
 
 # # ------------------
 # # Installing Lombok for eclipse
