@@ -12,6 +12,7 @@ RUN useradd -m -d /home/docker -s /bin/bash docker && \
 USER docker
 ENV HOME /home/docker
 ENV USER_NAME docker
+ENV DEBIAN_FRONTEND noninteractive
 WORKDIR /home/docker
 
 # ------------------
@@ -19,6 +20,8 @@ WORKDIR /home/docker
 # ------------------
 RUN sudo apt install -y locales && \ 
     sudo localedef -f UTF-8 -i ja_JP ja_JP.utf8 && \
+    # Use apt-get not apt or tzdata is interactive.
+    sudo apt-get -y install tzdata && \
     sudo apt install -y git vim curl make netcat libreadline-dev nkf bc expect tree inotify-tools sl jq dnsutils kakasi mecab mecab-ipadic-utf8 dc \
     # In order to develop debian package (Ref: http://www.rain.hyarc.nagoya-u.ac.jp/~satoki/main/Linux/configure/make_deb.html).
     dh-make fakeroot pbuilder \
