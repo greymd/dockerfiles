@@ -12,7 +12,6 @@ RUN useradd -m -d /home/docker -s /bin/bash docker && \
 USER docker
 ENV HOME /home/docker
 ENV USER_NAME docker
-ENV DEBIAN_FRONTEND noninteractive
 WORKDIR /home/docker
 
 # ------------------
