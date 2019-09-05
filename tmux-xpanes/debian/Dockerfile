@@ -1,5 +1,4 @@
 FROM debian:jessie-slim
-MAINTAINER Yamada, Yasuhiro <greengregson@gmail.com>
 
 # ------------------
 # Install Basic softwares

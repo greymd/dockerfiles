@@ -1,6 +1,5 @@
 FROM debian:jessie-slim
 ENV SH_VERSION 4.4
-MAINTAINER Gre <greengregson@gmail.com>
 RUN apt-get update \
     && apt-get install -y gcc \
                           make \

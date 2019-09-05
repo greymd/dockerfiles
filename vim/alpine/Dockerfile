@@ -1,6 +1,5 @@
 FROM alpine:3.5
 
-MAINTAINER Gre <greengregson@gmail.com>
 
 RUN apk --update --no-cache add ca-certificates git vim curl && \
     rm -rf /var/cache/apk/* && \

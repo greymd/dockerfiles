@@ -1,5 +1,4 @@
 FROM ruby:2.3.0
-MAINTAINER Yamada, Yasuhiro <greengregson@gmail.com>
 RUN apt update && \
     apt install -y locales && \
     localedef -f UTF-8 -i ja_JP ja_JP.utf8 && \
