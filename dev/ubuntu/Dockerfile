@@ -154,9 +154,11 @@ RUN mkdir -p $HOME/repos/greymd && \
     git clone https://github.com/greymd/dotfiles.git $HOME/repos/greymd/dotfiles && \
     cd $HOME/repos/greymd/dotfiles && \
     # Delete existing dotfiles
-    ls -a | grep '^\.'  | grep -vFw '.' | grep -v '^\.git$' | sed 's|^|rm -f $HOME/|' | sh && \
+    ls -a | grep '^\.'  | grep -vFw '.' | grep -v '^\.git$' | grep -v '\.config$' | sed 's|^|rm -f $HOME/|' | sh && \
     # Set links
-    ls -a | grep '^\.' | grep -v '^\.git$' | grep -vwF '.' | sed 's/^.*/echo ln -s $(pwd)\/& $HOME\/&/' | sh | sh
+    ls -a | grep '^\.' | grep -v '^\.git$' | grep -vwF '.' | grep -v '\.config$' | sed 's/^.*/echo ln -s $(pwd)\/& $HOME\/&/' | sh | sh && \
+    mkdir -p "$HOME"/.config/nvim/ && \
+    ln -s "$PWD"/.config/nvim/init.vim "$HOME"/.config/nvim/init.vim
 
 # ------------------
 # Install antigen
@@ -181,6 +183,14 @@ RUN yes | vim -c ":silent call dein#install() | :q"
 RUN cd $HOME/.cache/dein/repos/github.com/Shougo/vimproc.vim && make
 # Install Go dependencies
 RUN vim -c ":GoInstallBinaries" -c ":q!"
+
+# ------------------
+# NeoVim settings
+# ------------------
+RUN yes | sudo add-apt-repository ppa:neovim-ppa/stable && \
+    sudo apt update && \
+    sudo apt install -y neovim && \
+    curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # ------------------
 # Installing Eclipse & eclim
